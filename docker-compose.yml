@@ -1,0 +1,22 @@
+version: '3'
+services:
+  express-app:
+    build:  .
+    ports:
+      - '3000:3000'
+    depends_on:
+      - mongo
+      - client
+    environment:
+      DATABASE_URL: "mongodb://monty:pass@mongo:27017/mydatabase?authSource=admin&directConnection=true"
+  mongo:
+    image: prismagraphql/mongo-single-replica:5.0.3
+    ports:
+      - '27018:27017'
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: monty
+      MONGO_INITDB_ROOT_PASSWORD: pass
+  client:
+    build: ../React-Fullstack-client
+    ports:
+      - '80:80'
